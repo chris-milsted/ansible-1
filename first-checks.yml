@@ -1,8 +1,5 @@
 ---
 - hosts: all
-  remote_user: vagrant
-  become: yes
-  become_method: sudo
   gather_facts: true
 
   tasks:
@@ -11,14 +8,6 @@
 
     - debug: msg="Server {{ inventory_hostname }} has gateway {{ ansible_default_ipv4.gateway }}"
       when: ansible_default_ipv4.gateway is defined
-
-      tags:
-        - ping
-
-    - hostname:
-        name: beckton
-      tags:
-        - config
 
     - firewalld: port={{ item }} permanent=true state=enabled
       with_items:
